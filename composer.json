@@ -41,6 +41,9 @@
         }
     },
     "config": {
+        "platform": {
+            "php": "8.2.12"
+        },
         "allow-plugins": {
             "yiisoft/yii2-composer" : true
         },
