@@ -169,23 +169,23 @@
             <nav class="nav-menu">
                 <a href="#dashboard" class="nav-item active" data-target="dashboard-view">
                     <ion-icon name="grid-outline"></ion-icon>
-                    <span>Dashboard</span>
+                    <span>Home</span>
                 </a>
                 <a href="#productos" class="nav-item" data-target="productos-view">
                     <ion-icon name="pricetags-outline"></ion-icon>
-                    <span>Catálogo de Productos</span>
+                    <span>Productos</span>
                 </a>
                 <a href="#iot" class="nav-item" data-target="iot-view">
                     <ion-icon name="hardware-chip-outline"></ion-icon>
-                    <span>Dispositivos IoT</span>
+                    <span>Estantes</span>
                 </a>
                 <a href="#historial" class="nav-item" data-target="historial-view">
                     <ion-icon name="list-outline"></ion-icon>
-                    <span>Historial Movimientos</span>
+                    <span>Movimientos</span>
                 </a>
                 <a href="#perfil" class="nav-item" data-target="perfil-view">
                     <ion-icon name="person-outline"></ion-icon>
-                    <span>Mi Perfil</span>
+                    <span>Perfil</span>
                 </a>
             </nav>
             
