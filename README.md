@@ -1,60 +1,49 @@
 <p align="center">
-    <a href="https://github.com/yiisoft" target="_blank">
-        <img src="https://avatars0.githubusercontent.com/u/993323" height="100px">
+    <a href="https://expo.dev/accounts/talcocer/projects/vantage/builds/cdc71963-ec27-4528-9374-325a1f81f313" target="_blank">
+        <img src="C:\wamp64\www\Proyecto Vantage Web\img\Vantage.JPG" height="100px">
     </a>
-    <h1 align="center">Yii 2 Advanced Project Template</h1>
+    <h1 align="center">VANTAGE</h1>
     <br>
 </p>
 
-Yii 2 Advanced Project Template is a skeleton [Yii 2](https://www.yiiframework.com/) application best for
-developing complex Web applications with multiple tiers.
+Vantage es una aplicación móvil de gestión de inventarios diseñada específicamente para erradicar el "inventario fantasma" (las discrepancias entre el stock físico y el registrado).
+El sistema funciona bajo tres pilares fundamentales:
+Gestión centralizada: Permite el registro, actualización y eliminación precisa de las entradas y salidas de productos, con base a sensores y un registro previo dentro del inventario.
+Operatividad Offline/Online: Utiliza SQLite para funcionar localmente sin conexión a internet. Al detectar red, los datos se sincronizan automáticamente en la nube a través de Supabase.
+Trazabilidad por Roles: Cada usuario tiene un rol asignado, lo que permite auditar con exactitud quién operó el sistema y qué cambios se hicieron durante cada turno.
 
-The template includes three tiers: front end, back end, and console, each of which
-is a separate Yii application.
+# == Tecnologías Usadas ==
 
-The template is designed to work in a team development environment. It supports
-deploying the application in different environments.
+## Desarrollo web:
+![PHP](https://img.shields.io/badge/php-%23777BB4.svg?style=for-the-badge&logo=php&logoColor=white)
+![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
+![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=white)
+![MySQL](https://img.shields.io/badge/mysql-%2300F.svg?style=for-the-badge&logo=mysql&logoColor=white)
 
-Documentation is at [docs/guide/README.md](docs/guide/README.md).
+## Desarrollo móvil:
+![React Native](https://img.shields.io/badge/react_native-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![Expo](https://img.shields.io/badge/expo-1C1E24.svg?style=for-the-badge&logo=expo&logoColor=#D04A37)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=white)
+![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white)
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/yiisoft/yii2-app-advanced.svg)](https://packagist.org/packages/yiisoft/yii2-app-advanced)
-[![Total Downloads](https://img.shields.io/packagist/dt/yiisoft/yii2-app-advanced.svg)](https://packagist.org/packages/yiisoft/yii2-app-advanced)
-[![build](https://github.com/yiisoft/yii2-app-advanced/workflows/build/badge.svg)](https://github.com/yiisoft/yii2-app-advanced/actions?query=workflow%3Abuild)
 
-DIRECTORY STRUCTURE
+
+Desarrollado Por:
 -------------------
+Gener Gael Nahuat Caamal: 
+[![GitHub](https://img.shields.io/badge/-GitHub-%2320232a?style=flat&logo=github)](https://github.com/GenerCN)
 
-```
-common
-    config/              contains shared configurations
-    mail/                contains view files for e-mails
-    models/              contains model classes used in both backend and frontend
-    tests/               contains tests for common classes    
-console
-    config/              contains console configurations
-    controllers/         contains console controllers (commands)
-    migrations/          contains database migrations
-    models/              contains console-specific model classes
-    runtime/             contains files generated during runtime
-backend
-    assets/              contains application assets such as JavaScript and CSS
-    config/              contains backend configurations
-    controllers/         contains Web controller classes
-    models/              contains backend-specific model classes
-    runtime/             contains files generated during runtime
-    tests/               contains tests for backend application    
-    views/               contains view files for the Web application
-    web/                 contains the entry script and Web resources
-frontend
-    assets/              contains application assets such as JavaScript and CSS
-    config/              contains frontend configurations
-    controllers/         contains Web controller classes
-    models/              contains frontend-specific model classes
-    runtime/             contains files generated during runtime
-    tests/               contains tests for frontend application
-    views/               contains view files for the Web application
-    web/                 contains the entry script and Web resources
-    widgets/             contains frontend widgets
-vendor/                  contains dependent 3rd-party packages
-environments/            contains environment-based overrides
-```
+Alcocer Fernandez Tommy Moises
+[![GitHub](https://img.shields.io/badge/-GitHub-%2320232a?style=flat&logo=github)](https://github.com/Tommy-Alcocer)
+
+De Los Santos Uitzil Diego Jair
+[![GitHub](https://img.shields.io/badge/-GitHub-%2320232a?style=flat&logo=github)](https://github.com/GenerCN)
+
+Escalante Romero Haim
+[![GitHub](https://img.shields.io/badge/-GitHub-%2320232a?style=flat&logo=github)](https://github.com/l22070042)
+
+Pech Catzin Jesus Damian
+[![GitHub](https://img.shields.io/badge/-GitHub-%2320232a?style=flat&logo=github)](https://github.com/l22070083)
+

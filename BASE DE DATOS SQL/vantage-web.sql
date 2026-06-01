@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 29-04-2026 a las 22:27:27
+-- Tiempo de generación: 01-06-2026 a las 18:55:02
 -- Versión del servidor: 9.1.0
 -- Versión de PHP: 8.4.0
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `desarollo2026`
+-- Base de datos: `vantage-web`
 --
 
 -- --------------------------------------------------------
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `estado`;
 CREATE TABLE IF NOT EXISTS `estado` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `estado_nombre` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `estado_nombre` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `estado_valor` smallint NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -52,12 +52,12 @@ INSERT INTO `estado` (`id`, `estado_nombre`, `estado_valor`) VALUES
 DROP TABLE IF EXISTS `estado_mensaje`;
 CREATE TABLE IF NOT EXISTS `estado_mensaje` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `controlador_nombre` varchar(105) COLLATE utf8mb4_general_ci NOT NULL,
-  `accion_nombre` varchar(105) COLLATE utf8mb4_general_ci NOT NULL,
-  `estado_mensaje_nombre` varchar(105) COLLATE utf8mb4_general_ci NOT NULL,
-  `asunto` varchar(105) COLLATE utf8mb4_general_ci NOT NULL,
-  `cuerpo` varchar(105) COLLATE utf8mb4_general_ci NOT NULL,
-  `estado_mensaje_descripcion` varchar(105) COLLATE utf8mb4_general_ci NOT NULL,
+  `controlador_nombre` varchar(105) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `accion_nombre` varchar(105) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `estado_mensaje_nombre` varchar(105) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `asunto` varchar(105) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `cuerpo` varchar(105) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `estado_mensaje_descripcion` varchar(105) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `estado_mensaje` (
 DROP TABLE IF EXISTS `genero`;
 CREATE TABLE IF NOT EXISTS `genero` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `genero_nombre` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `genero_nombre` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -92,7 +92,7 @@ INSERT INTO `genero` (`id`, `genero_nombre`) VALUES
 
 DROP TABLE IF EXISTS `migration`;
 CREATE TABLE IF NOT EXISTS `migration` (
-  `version` varchar(180) COLLATE utf8mb4_general_ci NOT NULL,
+  `version` varchar(180) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `apply_time` int DEFAULT NULL,
   PRIMARY KEY (`version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -116,8 +116,8 @@ DROP TABLE IF EXISTS `perfil`;
 CREATE TABLE IF NOT EXISTS `perfil` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
-  `nombre` text COLLATE utf8mb4_general_ci NOT NULL,
-  `apellido` text COLLATE utf8mb4_general_ci NOT NULL,
+  `nombre` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `apellido` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `fecha_nacimiento` datetime NOT NULL,
   `genero_id` smallint NOT NULL,
   `created_at` datetime NOT NULL,
@@ -125,14 +125,6 @@ CREATE TABLE IF NOT EXISTS `perfil` (
   PRIMARY KEY (`id`),
   KEY `fk_perfil_user` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `perfil`
---
-
-INSERT INTO `perfil` (`id`, `user_id`, `nombre`, `apellido`, `fecha_nacimiento`, `genero_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 'JESUS ', 'PECH', '2004-12-20 00:00:00', 1, '2026-03-05 00:57:34', '2026-03-05 15:58:23'),
-(2, 2, 'JESUS ', 'Pech', '2004-12-20 00:00:00', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -143,8 +135,8 @@ INSERT INTO `perfil` (`id`, `user_id`, `nombre`, `apellido`, `fecha_nacimiento`,
 DROP TABLE IF EXISTS `project`;
 CREATE TABLE IF NOT EXISTS `project` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `description` text COLLATE utf8mb4_general_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `created_by` int NOT NULL,
@@ -198,7 +190,7 @@ INSERT INTO `rol` (`id`, `rol_nombre`, `rol_valor`) VALUES
 DROP TABLE IF EXISTS `status`;
 CREATE TABLE IF NOT EXISTS `status` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `description` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -211,8 +203,8 @@ CREATE TABLE IF NOT EXISTS `status` (
 DROP TABLE IF EXISTS `task`;
 CREATE TABLE IF NOT EXISTS `task` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `description` text COLLATE utf8mb4_general_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `status_id` int NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
@@ -235,7 +227,7 @@ CREATE TABLE IF NOT EXISTS `task` (
 DROP TABLE IF EXISTS `tipo_usuario`;
 CREATE TABLE IF NOT EXISTS `tipo_usuario` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `tipo_usuario_nombre` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `tipo_usuario_nombre` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `tipo_usuario_valor` int NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -257,17 +249,17 @@ INSERT INTO `tipo_usuario` (`id`, `tipo_usuario_nombre`, `tipo_usuario_valor`) V
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
-  `auth_key` varchar(32) COLLATE utf8mb3_unicode_ci NOT NULL,
-  `password_hash` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
-  `password_reset_token` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `username` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `auth_key` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `password_hash` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `password_reset_token` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `rol_id` int NOT NULL DEFAULT '1',
   `estado_id` int NOT NULL DEFAULT '1',
   `tipo_usuario_id` int NOT NULL DEFAULT '1',
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
-  `verification_token` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `verification_token` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`),
@@ -276,14 +268,6 @@ CREATE TABLE IF NOT EXISTS `user` (
   KEY `fk_user_rol` (`rol_id`),
   KEY `fk_user_estado` (`estado_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
-
---
--- Volcado de datos para la tabla `user`
---
-
-INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `rol_id`, `estado_id`, `tipo_usuario_id`, `created_at`, `updated_at`, `verification_token`) VALUES
-(1, 'damm.pech', 'UO0Ov2i6tD5BlZNpnSdeaGafk01u3u6X', '$2y$13$EBDZRivv7u0cjJUeFcYeS.DRAZFuQam5tzne4hBGaHehRRZzdqT/m', NULL, 'l22070083@valladolid.tecnm.mx', 3, 1, 1, '0000-00-00 00:00:00', '2026-03-20 11:35:55', 'DnCg3uJJYD42z0iOOxXSv8hVri-pm4Uw_1769818384'),
-(2, 'jesus.pech', 'BQwPoBXr5Hn4UDCOcYj-xUS5YUjFv6rQ', '$2y$13$3lT34P1iK7pgx5djIFfI..ikAx6ewyuyWXoTBVdzHMsdaMa7nmcve', NULL, 'l22070048@valladolid.tecnm.mx', 3, 1, 1, '2026-04-14 17:16:48', '2026-04-14 17:16:48', 'LnAUJd3hBmOkY65JJPqiRUDNQSDxkuMS_1776208608');
 
 --
 -- Restricciones para tablas volcadas
