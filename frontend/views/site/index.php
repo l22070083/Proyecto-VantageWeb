@@ -8,28 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vantage - Sistema de Gestión Premium</title>
     
-    <script>
-        window.addEventListener('error', function(e) {
-            const errDiv = document.createElement('div');
-            errDiv.style.cssText = 'position:fixed;top:0;left:0;width:100%;background:red;color:white;z-index:999999;padding:10px;font-family:sans-serif;font-size:14px;';
-            errDiv.innerText = 'JS Error: ' + e.message + ' at ' + e.filename + ':' + e.lineno;
-            document.body.appendChild(errDiv);
-        });
-        window.addEventListener('unhandledrejection', function(e) {
-            const errDiv = document.createElement('div');
-            errDiv.style.cssText = 'position:fixed;top:40px;left:0;width:100%;background:orange;color:white;z-index:999999;padding:10px;font-family:sans-serif;font-size:14px;';
-            errDiv.innerText = 'JS Promise Error: ' + (e.reason ? e.reason.message : 'Unknown');
-            document.body.appendChild(errDiv);
-        });
-    </script>
-    
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     
-    <link rel="stylesheet" href="/css/vantage.css">
+    <link rel="stylesheet" href="/css/vantage.css?v=3">
     
     <!-- Conexión a Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -145,10 +129,10 @@
                     <div class="form-group mb-4">
                         <label style="color: var(--text-color); font-weight: 500; margin-bottom: 8px; display: block;">Puesto *</label>
                         <select id="reg-role" required class="form-control" style="padding: 12px;">
-                            <option value="4">Empleado</option>
                             <option value="1">Administrador TI</option>
                             <option value="2">Desarrollador</option>
                             <option value="3">Tester</option>
+                            <option value="4">Empleado</option>
                         </select>
                     </div>
                     
@@ -163,7 +147,7 @@
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="brand">
-                <ion-icon name="cube-outline"></ion-icon> Vantage
+                <img src="/images/vantage.png" alt="Vantage Logo" style="width: 50px; height: 50px; margin-right: 10px; object-fit: contain;"> Vantage
             </div>
             
             <nav class="nav-menu">
@@ -272,8 +256,8 @@
                 <div id="productos-view" class="view-section hidden">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
                         <div>
-                            <h2 style="font-size: 28px; font-weight: 700; color: var(--text-color);">Gestión de Productos</h2>
-                            <p style="color: var(--text-muted); font-size: 14px; margin-top: 2px;">Catálogo completo de inventarios y calibraciones.</p>
+                            <h2 style="font-size: 28px; font-weight: 700; color: var(--text-color);">Productos</h2>
+                            <p style="color: var(--text-muted); font-size: 14px; margin-top: 2px;">Gestión de Productos</p>
                         </div>
                         <button class="btn btn-primary" id="btn-nuevo-producto" style="display: flex; align-items: center; gap: 8px;">
                             <ion-icon name="add-outline" style="font-size: 18px;"></ion-icon> Nuevo Producto
@@ -330,8 +314,8 @@
                 <div id="iot-view" class="view-section hidden">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
                         <div>
-                            <h2 style="font-size: 28px; font-weight: 700; color: var(--text-color);">Monitoreo de Dispositivos IoT</h2>
-                            <p style="color: var(--text-muted); font-size: 14px; margin-top: 2px;">Básculas de peso y control de acceso RFID en tiempo real.</p>
+                            <h2 style="font-size: 28px; font-weight: 700; color: var(--text-color);">Dispositivos IoT</h2>
+                            <p style="color: var(--text-muted); font-size: 14px; margin-top: 2px;">Monitoreo de básculas de peso y control RFID en tiempo real</p>
                         </div>
                         <button class="btn btn-primary" id="btn-nuevo-estante" style="display: flex; align-items: center; gap: 8px;">
                             <ion-icon name="add-outline" style="font-size: 18px;"></ion-icon> Nuevo Estante
@@ -351,7 +335,7 @@
                         <div style="flex: 0 0 320px; width: 100%; display: flex; flex-direction: column; gap: 12px;">
                             <h3 style="font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); margin-bottom: 8px;">Control de Acceso RFID</h3>
                             <div class="card" style="padding: 20px;">
-                                <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">Vincula y audita tarjetas físicas de los operadores mediante escaneo físico en báscula.</p>
+                                <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">CONTROL DE ACCESO RFID</p>
                                 
                                 <div style="display: flex; flex-direction: column; gap: 12px;" id="rfid-profiles-list">
                                     <div style="text-align: center; color: var(--text-muted); padding: 16px;">Cargando perfiles...</div>
@@ -499,7 +483,7 @@
                             <p style="font-size: 12px; color: var(--text-secondary);">Salir de tu sesión actual y limpiar cookies del almacén.</p>
                         </div>
                         <button class="btn btn-outline" onclick="document.getElementById('logout-btn').click()" style="color: var(--danger); border-color: var(--danger); font-weight: 700; display: flex; align-items: center; gap: 8px;">
-                            <ion-icon name="log-out-outline" style="font-size: 18px;"></ion-icon> Cerrar Sesión Activa
+                            <ion-icon name="log-out-outline" style="font-size: 18px;"></ion-icon> Cerrar Sesión
                         </button>
                     </div>
                 </div>
@@ -1737,8 +1721,8 @@
                 
                 if (error) throw error;
 
-                document.getElementById('perfil-nombre-completo').textContent = data.nombre_completo || 'Usuario de Vantage';
-                document.getElementById('perfil-username-tag').textContent = `@${data.username || 'sin_usuario'}`;
+                document.getElementById('perfil-nombre-completo').textContent = data.nombre_completo || currentUser.user_metadata?.full_name || 'Usuario de Vantage';
+                document.getElementById('perfil-username-tag').textContent = `@${data.username || currentUser.user_metadata?.username || 'sin_usuario'}`;
                 document.getElementById('perfil-rol-tag').textContent = `Rol: ${data.roles?.nombre || 'Empleado'}`;
                 document.getElementById('perfil-email-tag').innerHTML = `<ion-icon name="mail-outline"></ion-icon> ${currentUser.email}`;
                 
