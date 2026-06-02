@@ -46,40 +46,12 @@
                 <h2 style="font-size: 32px; font-weight: 700; margin-bottom: 8px; text-align: center; color: var(--text-color);">¡Bienvenido!</h2>
                 <p style="color: var(--text-muted); text-align: center; margin-bottom: 48px; font-size: 16px;">Selecciona una opción para continuar</p>
                 
-                <button type="button" class="btn btn-primary" style="width: 100%; padding: 16px; margin-bottom: 16px; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="navigateTo('login')">
+                <a href="<?= \yii\helpers\Url::to(['site/login']) ?>" class="btn btn-primary" style="width: 100%; padding: 16px; margin-bottom: 16px; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;">
                     <ion-icon name="log-in-outline" style="font-size: 20px;"></ion-icon> Iniciar Sesión
-                </button>
+                </a>
                 <button type="button" class="btn btn-success" style="width: 100%; padding: 16px; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="navigateTo('register')">
                     <ion-icon name="person-add-outline" style="font-size: 20px;"></ion-icon> Registrarse
                 </button>
-            </div>
-
-            <!-- Login -->
-            <div id="auth-view-login" class="hidden" style="display: flex; flex-direction: column; width: 100%; max-width: 400px;">
-                <button type="button" class="btn" style="background: transparent; color: #2563EB; display: flex; align-items: center; gap: 8px; padding: 0; margin-bottom: 32px; align-self: flex-start;" onclick="goBack('welcome')">
-                    <ion-icon name="arrow-back-outline"></ion-icon> Regresar
-                </button>
-                
-                <h2 style="font-size: 28px; font-weight: 700; margin-bottom: 8px; color: var(--text-color);">Iniciar Sesión</h2>
-                <p style="color: var(--text-muted); margin-bottom: 32px;">Ingresa tus credenciales para acceder</p>
-                
-                <div id="auth-error" class="hidden" style="background: var(--danger-bg); color: var(--danger); padding: 12px; border-radius: 8px; margin-bottom: 24px; font-size: 14px; text-align: center;"></div>
-                
-                <form id="login-form">
-                    <div class="form-group mb-4">
-                        <label style="color: var(--text-color); font-weight: 500; margin-bottom: 8px; display: block;">Nombre de Usuario</label>
-                        <input type="text" id="login-username" required class="form-control" placeholder="Ej. admin" style="padding: 14px; font-size: 15px;">
-                    </div>
-                    <div class="form-group mb-4">
-                        <label style="color: var(--text-color); font-weight: 500; margin-bottom: 8px; display: block;">Contraseña</label>
-                        <input type="password" id="login-password" required class="form-control" placeholder="••••••••" style="padding: 14px; font-size: 15px;">
-                    </div>
-                    <button type="submit" id="btn-login-submit" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 16px; margin-top: 8px; margin-bottom: 16px;">Entrar</button>
-                </form>
-                
-                <div style="text-align: center; margin-top: 16px;">
-                    <p style="color: var(--text-muted); font-size: 14px;">¿No tienes cuenta? <button type="button" style="background: none; border: none; color: #2563EB; font-weight: 600; cursor: pointer; font-size: 14px; padding: 0;" onclick="navigateTo('register')">Crear Cuenta</button></p>
-                </div>
             </div>
 
             <!-- Vista 3: Registro -->
@@ -680,7 +652,7 @@
                 appContainer = document.getElementById('app');
             }
 
-            const authViews = ['welcome', 'login', 'register'];
+            const authViews = ['welcome', 'register'];
             const appViews = ['dashboard', 'productos', 'iot', 'historial', 'perfil'];
 
             if (authViews.includes(viewName)) {
@@ -792,10 +764,8 @@
         let rfidTimer = null;
         let selectedProfileRfid = null;
         
-        const loginForm = document.getElementById('login-form');
         const registerForm = document.getElementById('register-form');
         const logoutBtn = document.getElementById('logout-btn');
-        const authError = document.getElementById('auth-error');
         const registerError = document.getElementById('register-error');
         
         window.supabaseClient = supabase;
@@ -859,7 +829,7 @@
                         setupRealtimeSubscriptions();
                         
                         const currentHash = location.hash.replace('#', '');
-                        const authViews = ['welcome', 'login', 'register'];
+                        const authViews = ['welcome', 'register'];
                         if (authViews.includes(currentHash) || !currentHash) {
                             window.navigateTo('dashboard', true);
                         } else {
@@ -877,28 +847,6 @@
                 console.error(e);
             }
         }
-        
-        // Acción al ingresar
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const username = document.getElementById('login-username').value;
-            const password = document.getElementById('login-password').value;
-            const btn = document.getElementById('btn-login-submit');
-            
-            authError.classList.add('hidden');
-            btn.innerHTML = 'Cargando...';
-            btn.disabled = true;
-            
-            try {
-                await login(username, password);
-            } catch (error) {
-                authError.textContent = error.message;
-                authError.classList.remove('hidden');
-            } finally {
-                btn.innerHTML = 'Entrar';
-                btn.disabled = false;
-            }
-        });
         
         // Acción al registrar
         registerForm.addEventListener('submit', async (e) => {
