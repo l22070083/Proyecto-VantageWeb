@@ -122,6 +122,6 @@ class TipoUsuarioController extends Controller
             return $model;
         }
 
-        throw new NotFoundHttpException('La página solicitada no existe.');
+        throw new NotFoundHttpException('La página solicitada no existe.'); 
     }
 }
