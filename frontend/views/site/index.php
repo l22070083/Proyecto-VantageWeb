@@ -40,25 +40,11 @@
         <!-- Formularios -->
         <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; background: var(--bg-color); padding: 40px; overflow-y: auto;">
             
-            <!-- Vista Welcome -->
-            <div id="auth-view-welcome" style="display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 400px;">
-                <img src="/images/vantage.png" alt="Vantage Logo" style="width: 100px; height: 100px; border-radius: 16px; margin-bottom: 24px; object-fit: contain; display: block; @media(min-width: 768px) { display: none; }">
-                <h2 style="font-size: 32px; font-weight: 700; margin-bottom: 8px; text-align: center; color: var(--text-color);">¡Bienvenido!</h2>
-                <p style="color: var(--text-muted); text-align: center; margin-bottom: 48px; font-size: 16px;">Selecciona una opción para continuar</p>
-                
-                <a href="<?= \yii\helpers\Url::to(['site/login']) ?>" class="btn btn-primary" style="width: 100%; padding: 16px; margin-bottom: 16px; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;">
-                    <ion-icon name="log-in-outline" style="font-size: 20px;"></ion-icon> Iniciar Sesión
-                </a>
-                <button type="button" class="btn btn-success" style="width: 100%; padding: 16px; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="navigateTo('register')">
-                    <ion-icon name="person-add-outline" style="font-size: 20px;"></ion-icon> Registrarse
-                </button>
-            </div>
-
             <!-- Vista 3: Registro -->
             <div id="auth-view-register" class="hidden" style="display: flex; flex-direction: column; width: 100%; max-width: 500px; padding-bottom: 40px;">
-                <button type="button" class="btn" style="background: transparent; color: #2563EB; display: flex; align-items: center; gap: 8px; padding: 0; margin-bottom: 24px; align-self: flex-start;" onclick="goBack('welcome')">
+                <a href="<?= \yii\helpers\Url::to(['site/welcome']) ?>" class="btn" style="background: transparent; color: #2563EB; display: flex; align-items: center; gap: 8px; padding: 0; margin-bottom: 24px; align-self: flex-start; text-decoration: none;">
                     <ion-icon name="arrow-back-outline"></ion-icon> Regresar
-                </button>
+                </a>
                 
                 <h2 style="font-size: 28px; font-weight: 700; margin-bottom: 8px; color: var(--text-color);">Crear una Cuenta</h2>
                 <p style="color: var(--text-muted); margin-bottom: 32px;">Completa el formulario para registrarte en Vantage</p>
@@ -652,7 +638,7 @@
                 appContainer = document.getElementById('app');
             }
 
-            const authViews = ['welcome', 'register'];
+            const authViews = ['register'];
             const appViews = ['dashboard', 'productos', 'iot', 'historial', 'perfil'];
 
             if (authViews.includes(viewName)) {
@@ -736,13 +722,13 @@
                 currentHistoryIndex = event.state.index;
                 window.renderView(event.state.view);
             } else {
-                const hash = location.hash.replace('#', '') || (window.spaCurrentUser ? 'dashboard' : 'welcome');
+                const hash = location.hash.replace('#', '') || (window.spaCurrentUser ? 'dashboard' : 'register');
                 window.renderView(hash);
             }
         });
         
         document.addEventListener('DOMContentLoaded', () => {
-            const hash = location.hash.replace('#', '') || 'welcome';
+            const hash = location.hash.replace('#', '') || 'dashboard';
             window.navigateTo(hash, true);
         });
     </script>
@@ -810,8 +796,14 @@
                 } else {
                     currentUser = null;
                     window.spaCurrentUser = null;
-                    const hash = location.hash.replace('#', '') || 'welcome';
-                    window.navigateTo(hash, true);
+                
+                const hash = location.hash.replace('#', '');
+                if (hash === 'register') {
+                    window.navigateTo('register', true);
+                } else {
+                    window.location.href = '<?= \yii\helpers\Url::to(['site/welcome']) ?>';
+                }
+                return;
                 }
                 
                 // Escuchar cambios de autenticación
@@ -838,7 +830,7 @@
                     } else if (event === 'SIGNED_OUT') {
                         currentUser = null;
                         window.spaCurrentUser = null;
-                        window.navigateTo('welcome', true);
+                    window.location.href = '<?= \yii\helpers\Url::to(['site/welcome']) ?>';
                     }
                 });
                 
