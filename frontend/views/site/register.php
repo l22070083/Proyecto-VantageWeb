@@ -80,16 +80,6 @@ $this->context->layout = false; // Desactiva el layout por defecto
                         <input type="password" id="reg-password" required class="form-control" placeholder="Mínimo 6 caracteres" style="padding: 12px;">
                     </div>
                     
-                    <div class="form-group mb-4">
-                        <label style="color: var(--text-color); font-weight: 500; margin-bottom: 8px; display: block;">Puesto *</label>
-                        <select id="reg-role" required class="form-control" style="padding: 12px;">
-                            <option value="1">Administrador TI</option>
-                            <option value="2">Desarrollador</option>
-                            <option value="3">Tester</option>
-                            <option value="4">Empleado</option>
-                        </select>
-                    </div>
-                    
                     <button type="submit" id="btn-register-submit" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 16px; margin-top: 16px;">Completar Registro</button>
                 </form>
             </div>
@@ -118,7 +108,6 @@ $this->context->layout = false; // Desactiva el layout por defecto
             const lname1 = document.getElementById('reg-lname1').value;
             const lname2 = document.getElementById('reg-lname2').value;
             const password = document.getElementById('reg-password').value;
-            const roleId = document.getElementById('reg-role').value;
             const btn = document.getElementById('btn-register-submit');
             
             registerError.classList.add('hidden');
@@ -134,7 +123,8 @@ $this->context->layout = false; // Desactiva el layout por defecto
             
             try {
                 const fullName = `${fname} ${mname} ${lname1} ${lname2}`.replace(/\s+/g, ' ').trim();
-                await register(username, password, fullName, { role_id: parseInt(roleId) });
+                // Asignamos por defecto el rol "Empleado" (ID 4)
+                await register(username, password, fullName, { role_id: 4 });
                 alert("Cuenta creada exitosamente. Ya puedes iniciar sesión.");
                 window.location.href = '<?= Url::to(['site/login']) ?>';
             } catch (error) {
