@@ -43,8 +43,7 @@ $this->context->layout = false; // Desactiva el layout por defecto
                 <a href="<?= Url::to(['site/login']) ?>" class="btn btn-primary" style="width: 100%; padding: 16px; margin-bottom: 16px; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;">
                     <ion-icon name="log-in-outline" style="font-size: 20px;"></ion-icon> Iniciar Sesión
                 </a>
-                <!-- Enlace temporal a index#register mientras lo extraemos -->
-                <a href="<?= Url::to(['site/index', '#' => 'register']) ?>" class="btn btn-success" style="width: 100%; padding: 16px; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;">
+                <a href="<?= Url::to(['site/register']) ?>" class="btn btn-success" style="width: 100%; padding: 16px; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;">
                     <ion-icon name="person-add-outline" style="font-size: 20px;"></ion-icon> Registrarse
                 </a>
             </div>

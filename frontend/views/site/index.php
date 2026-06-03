@@ -27,81 +27,8 @@
 </head>
 <body>
 
-    <!-- Sección de Auth -->
-    <div id="auth-container" class="auth-container" style="display: none; background: var(--bg-color); position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 9999; display: flex;">
-        
-        
-        <div style="flex: 1; background: linear-gradient(135deg, #0F172A 0%, #134E4A 100%); display: none; flex-direction: column; justify-content: center; align-items: center; padding: 40px; color: white; @media(min-width: 768px) { display: flex; }">
-            <img src="/images/vantage.png" alt="Vantage Logo" style="width: 200px; height: 200px; border-radius: 32px; margin-bottom: 32px; object-fit: contain; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);">
-            <h1 style="font-size: 48px; font-weight: 800; margin-bottom: 16px; letter-spacing: -1px;">VANTAGE</h1>
-            <p style="font-size: 20px; color: #CCFBF1; max-width: 400px; text-align: center;">Sistema de gestión de inventarios e integración IoT para almacenes inteligentes.</p>
-        </div>
-
-        <!-- Formularios -->
-        <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; background: var(--bg-color); padding: 40px; overflow-y: auto;">
-            
-            <!-- Vista 3: Registro -->
-            <div id="auth-view-register" class="hidden" style="display: flex; flex-direction: column; width: 100%; max-width: 500px; padding-bottom: 40px;">
-                <a href="<?= \yii\helpers\Url::to(['site/welcome']) ?>" class="btn" style="background: transparent; color: #2563EB; display: flex; align-items: center; gap: 8px; padding: 0; margin-bottom: 24px; align-self: flex-start; text-decoration: none;">
-                    <ion-icon name="arrow-back-outline"></ion-icon> Regresar
-                </a>
-                
-                <h2 style="font-size: 28px; font-weight: 700; margin-bottom: 8px; color: var(--text-color);">Crear una Cuenta</h2>
-                <p style="color: var(--text-muted); margin-bottom: 32px;">Completa el formulario para registrarte en Vantage</p>
-                
-                <div id="register-error" class="hidden" style="background: var(--danger-bg); color: var(--danger); padding: 12px; border-radius: 8px; margin-bottom: 24px; font-size: 14px; text-align: center;"></div>
-                
-                <form id="register-form">
-                    <div class="form-group mb-4">
-                        <label style="color: var(--text-color); font-weight: 500; margin-bottom: 8px; display: block;">Nombre de Usuario *</label>
-                        <input type="text" id="reg-username" required class="form-control" placeholder="Ej. juan.perez" style="padding: 12px;">
-                    </div>
-                    
-                    <div style="display: flex; gap: 16px; margin-bottom: 16px;">
-                        <div class="form-group" style="flex: 1; margin-bottom: 0;">
-                            <label style="color: var(--text-color); font-weight: 500; margin-bottom: 8px; display: block;">Primer Nombre *</label>
-                            <input type="text" id="reg-fname" required class="form-control" placeholder="Ej. Juan" style="padding: 12px;">
-                        </div>
-                        <div class="form-group" style="flex: 1; margin-bottom: 0;">
-                            <label style="color: var(--text-color); font-weight: 500; margin-bottom: 8px; display: block;">Segundo Nombre</label>
-                            <input type="text" id="reg-mname" class="form-control" placeholder="Opcional" style="padding: 12px;">
-                        </div>
-                    </div>
-                    
-                    <div style="display: flex; gap: 16px; margin-bottom: 16px;">
-                        <div class="form-group" style="flex: 1; margin-bottom: 0;">
-                            <label style="color: var(--text-color); font-weight: 500; margin-bottom: 8px; display: block;">Primer Apellido *</label>
-                            <input type="text" id="reg-lname1" required class="form-control" placeholder="Ej. Pérez" style="padding: 12px;">
-                        </div>
-                        <div class="form-group" style="flex: 1; margin-bottom: 0;">
-                            <label style="color: var(--text-color); font-weight: 500; margin-bottom: 8px; display: block;">Segundo Apellido *</label>
-                            <input type="text" id="reg-lname2" required class="form-control" placeholder="Ej. García" style="padding: 12px;">
-                        </div>
-                    </div>
-
-                    <div class="form-group mb-4">
-                        <label style="color: var(--text-color); font-weight: 500; margin-bottom: 8px; display: block;">Contraseña *</label>
-                        <input type="password" id="reg-password" required class="form-control" placeholder="Mínimo 6 caracteres" style="padding: 12px;">
-                    </div>
-                    
-                    <div class="form-group mb-4">
-                        <label style="color: var(--text-color); font-weight: 500; margin-bottom: 8px; display: block;">Puesto *</label>
-                        <select id="reg-role" required class="form-control" style="padding: 12px;">
-                            <option value="1">Administrador TI</option>
-                            <option value="2">Desarrollador</option>
-                            <option value="3">Tester</option>
-                            <option value="4">Empleado</option>
-                        </select>
-                    </div>
-                    
-                    <button type="submit" id="btn-register-submit" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 16px; margin-top: 16px;">Completar Registro</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
     <!-- Vista Principal-->
-    <div id="app" style="display: none;">
+    <div id="app">
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="brand">
@@ -624,7 +551,6 @@
         
         window.spaCurrentUser = null;
         let currentHistoryIndex = 0;
-        let authContainer = null;
         let appContainer = null;
 
         window.closeModal = function(id) {
@@ -633,40 +559,18 @@
         };
 
         window.renderView = function(viewName) {
-            if (!authContainer) {
-                authContainer = document.getElementById('auth-container');
+            if (!appContainer) {
                 appContainer = document.getElementById('app');
             }
 
-            const authViews = ['register'];
             const appViews = ['dashboard', 'productos', 'iot', 'historial', 'perfil'];
 
-            if (authViews.includes(viewName)) {
-                if (window.spaCurrentUser) {
-                    window.navigateTo('dashboard', true);
-                    return;
-                }
-                
-                authContainer.style.display = 'flex';
-                appContainer.style.display = 'none';
-                
-                authViews.forEach(v => {
-                    const el = document.getElementById(`auth-view-${v}`);
-                    if (el) {
-                        if (v === viewName) {
-                            el.classList.remove('hidden');
-                        } else {
-                            el.classList.add('hidden');
-                        }
-                    }
-                });
-            } else if (appViews.includes(viewName)) {
+            if (appViews.includes(viewName)) {
                 if (!window.spaCurrentUser) {
                     window.navigateTo('welcome', true);
                     return;
                 }
                 
-                authContainer.style.display = 'none';
                 appContainer.style.display = 'flex';
                 
                 
@@ -722,7 +626,7 @@
                 currentHistoryIndex = event.state.index;
                 window.renderView(event.state.view);
             } else {
-                const hash = location.hash.replace('#', '') || (window.spaCurrentUser ? 'dashboard' : 'register');
+                const hash = location.hash.replace('#', '') || 'dashboard';
                 window.renderView(hash);
             }
         });
@@ -740,7 +644,7 @@
         import { getProductos, createProducto, updateProducto, deleteProducto, getProductoStats, getProductLogs } from '<?= \yii\helpers\Url::base() ?>/js/services/productosService.js';
         import { getMovimientos, getMovimientosStatistics, getStockActual, createMovimiento, deleteMovimientoService } from '<?= \yii\helpers\Url::base() ?>/js/services/movimientosService.js';
         import { getEstantes, registerEstante, linkProductToShelf, unlinkProductFromShelf, deleteEstante } from '<?= \yii\helpers\Url::base() ?>/js/services/estantesService.js';
-        import { login, logout, getSession, register } from '<?= \yii\helpers\Url::base() ?>/js/services/authService.js';
+        import { logout, getSession } from '<?= \yii\helpers\Url::base() ?>/js/services/authService.js';
 
         
         let currentUser = null;
@@ -750,9 +654,7 @@
         let rfidTimer = null;
         let selectedProfileRfid = null;
         
-        const registerForm = document.getElementById('register-form');
         const logoutBtn = document.getElementById('logout-btn');
-        const registerError = document.getElementById('register-error');
         
         window.supabaseClient = supabase;
 
@@ -796,13 +698,7 @@
                 } else {
                     currentUser = null;
                     window.spaCurrentUser = null;
-                
-                const hash = location.hash.replace('#', '');
-                if (hash === 'register') {
-                    window.navigateTo('register', true);
-                } else {
                     window.location.href = '<?= \yii\helpers\Url::to(['site/welcome']) ?>';
-                }
                 return;
                 }
                 
@@ -821,8 +717,7 @@
                         setupRealtimeSubscriptions();
                         
                         const currentHash = location.hash.replace('#', '');
-                        const authViews = ['welcome', 'register'];
-                        if (authViews.includes(currentHash) || !currentHash) {
+                        if (!currentHash) {
                             window.navigateTo('dashboard', true);
                         } else {
                             window.renderView(currentHash);
@@ -839,44 +734,6 @@
                 console.error(e);
             }
         }
-        
-        // Acción al registrar
-        registerForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const username = document.getElementById('reg-username').value;
-            const fname = document.getElementById('reg-fname').value;
-            const mname = document.getElementById('reg-mname').value;
-            const lname1 = document.getElementById('reg-lname1').value;
-            const lname2 = document.getElementById('reg-lname2').value;
-            const password = document.getElementById('reg-password').value;
-            const roleId = document.getElementById('reg-role').value;
-            const btn = document.getElementById('btn-register-submit');
-            
-            registerError.classList.add('hidden');
-            
-            if (password.length < 6) {
-                registerError.textContent = "La contraseña debe tener mínimo 6 caracteres.";
-                registerError.classList.remove('hidden');
-                return;
-            }
-            
-            btn.innerHTML = 'Cargando...';
-            btn.disabled = true;
-            
-            try {
-                const fullName = `${fname} ${mname} ${lname1} ${lname2}`.replace(/\s+/g, ' ').trim();
-                await register(username, password, fullName, { role_id: parseInt(roleId) });
-                alert("Cuenta creada exitosamente. Ya puedes iniciar sesión.");
-                window.navigateTo('login');
-                document.getElementById('login-username').value = username;
-            } catch (error) {
-                registerError.textContent = error.message;
-                registerError.classList.remove('hidden');
-            } finally {
-                btn.innerHTML = 'Completar Registro';
-                btn.disabled = false;
-            }
-        });
         
         // Cerrar sesión
         logoutBtn.addEventListener('click', async () => {
