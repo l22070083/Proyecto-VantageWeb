@@ -344,7 +344,7 @@
 
             if (appViews.includes(viewName)) {
                 if (!window.spaCurrentUser) {
-                    window.navigateTo('welcome', true);
+                    window.location.href = '<?= \yii\helpers\Url::to(['site/welcome']) ?>';
                     return;
                 }
                 
@@ -407,11 +407,6 @@
                 window.renderView(hash);
             }
         });
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            const hash = location.hash.replace('#', '') || 'dashboard';
-            window.navigateTo(hash, true);
-        });
     </script>
 
     <script type="module">
@@ -430,6 +425,7 @@
         let rfidCountdown = 10;
         let rfidTimer = null;
         let selectedProfileRfid = null;
+        window.userRole = null;
         
         const logoutBtn = document.getElementById('logout-btn');
         
@@ -464,9 +460,15 @@
                 if (session) {
                     currentUser = session.user;
                     window.spaCurrentUser = session.user;
+                    
+                    // Cargar perfil antes de renderizar para tener el rol y nombre listos
+                    const { data: profile } = await supabase.from('perfiles').select('role_id, nombre_completo').eq('id', currentUser.id).single();
+                    window.userRole = profile?.role_id || 4;
+                    applyRoleRestrictions();
+                    
                     if (currentUser && currentUser.email) {
                         document.getElementById('user-email').textContent = currentUser.email;
-                        document.getElementById('user-avatar').textContent = currentUser.email.charAt(0).toUpperCase();
+                        document.getElementById('user-avatar').textContent = (profile?.nombre_completo || currentUser.email).charAt(0).toUpperCase();
                     }
                     setupRealtimeSubscriptions();
                     
@@ -485,20 +487,25 @@
                         currentUser = session.user;
                         window.spaCurrentUser = session.user;
                         
-                        // Datos de usuario
-                        if(currentUser && currentUser.email) {
-                            document.getElementById('user-email').textContent = currentUser.email;
-                            document.getElementById('user-avatar').textContent = currentUser.email.charAt(0).toUpperCase();
-                        }
-                        
-                        setupRealtimeSubscriptions();
-                        
-                        const currentHash = location.hash.replace('#', '');
-                        if (!currentHash) {
-                            window.navigateTo('dashboard', true);
-                        } else {
-                            window.renderView(currentHash);
-                        }
+                        supabase.from('perfiles').select('role_id, nombre_completo').eq('id', currentUser.id).single().then(({ data: profile }) => {
+                            window.userRole = profile?.role_id || 4;
+                            applyRoleRestrictions();
+                            
+                            // Datos de usuario
+                            if(currentUser && currentUser.email) {
+                                document.getElementById('user-email').textContent = currentUser.email;
+                                document.getElementById('user-avatar').textContent = (profile?.nombre_completo || currentUser.email).charAt(0).toUpperCase();
+                            }
+                            
+                            setupRealtimeSubscriptions();
+                            
+                            const currentHash = location.hash.replace('#', '');
+                            if (!currentHash) {
+                                window.navigateTo('dashboard', true);
+                            } else {
+                                window.renderView(currentHash);
+                            }
+                        });
                     } else if (event === 'SIGNED_OUT') {
                         currentUser = null;
                         window.spaCurrentUser = null;
@@ -529,6 +536,28 @@
                     window.navigateTo(hash);
                 });
             });
+        }
+        
+        function applyRoleRestrictions() {
+            const role = window.userRole;
+            // 1 - Administrador TI, 2 - Desarrollador, 3 - Tester, 4 - Empleado
+            
+            const btnNuevoProducto = document.getElementById('btn-nuevo-producto');
+            const btnNuevoEstante = document.getElementById('btn-nuevo-estante');
+            const btnRegistrarMovimiento = document.querySelector('button[onclick="abrirModalNuevoMovimiento()"]');
+            const accionesRapidas = document.querySelectorAll('.action-card');
+            
+            if (role === 4) {
+                if (btnNuevoProducto) btnNuevoProducto.style.display = 'none';
+                if (btnNuevoEstante) btnNuevoEstante.style.display = 'none';
+                if (btnRegistrarMovimiento) btnRegistrarMovimiento.style.display = 'none';
+                accionesRapidas.forEach(el => el.style.display = 'none');
+            } else {
+                if (btnNuevoProducto) btnNuevoProducto.style.display = 'flex';
+                if (btnNuevoEstante) btnNuevoEstante.style.display = 'flex';
+                if (btnRegistrarMovimiento) btnRegistrarMovimiento.style.display = 'flex';
+                accionesRapidas.forEach(el => el.style.display = 'flex');
+            }
         }
         
         async function loadDashboardStats() {
@@ -720,6 +749,9 @@
                 
                 // Buscar si tiene inventario o celda vinculada
                 let celdaText = `<button class="btn btn-outline" style="padding: 6px 12px; font-size: 11px;" onclick="abrirModalVincularCelda('${p.id}')">Vincular Celda</button>`;
+                if (window.userRole === 4) {
+                    celdaText = `<span style="font-size: 12px; color: var(--text-muted);">No vinculado</span>`;
+                }
                 if (p.inventario_actual && p.inventario_actual.length > 0) {
                     const inv = p.inventario_actual[0];
                     celdaText = `<span style="font-size: 12px; color: var(--primary-color); font-weight: 600;"><ion-icon name="scale-outline"></ion-icon> Vinculado</span>`;
@@ -727,6 +759,20 @@
                 
                 const nombreEscaped = p.nombre.replace(/'/g, "\\'");
                 const catEscaped = (p.categoria || '').replace(/'/g, "\\'");
+                
+                let actionsHtml = '';
+                if (window.userRole !== 4) {
+                    actionsHtml = `
+                        <button onclick="editarProducto(${p.id}, '${nombreEscaped}', '${catEscaped}', ${p.peso_unidad}, ${p.stock_minimo || 0})" class="btn" style="padding: 6px; background: rgba(16, 185, 129, 0.15); color: #10b981; margin-right: 4px;" title="Editar">
+                            <ion-icon name="create-outline"></ion-icon>
+                        </button>
+                        <button onclick="eliminarProducto(${p.id})" class="btn" style="padding: 6px; background: rgba(239, 68, 68, 0.15); color: #ef4444;" title="Eliminar">
+                            <ion-icon name="trash-outline"></ion-icon>
+                        </button>
+                    `;
+                } else {
+                    actionsHtml = `<span style="font-size: 12px; color: var(--text-muted);">Solo lectura</span>`;
+                }
                 
                 return `
                 <tr>
@@ -736,12 +782,7 @@
                     <td><span class="badge ${stock <= 5 ? 'badge-danger' : 'badge-success'}" style="font-weight: 700; font-size: 13px;">${stock} u</span></td>
                     <td>${celdaText}</td>
                     <td style="text-align: right;">
-                        <button onclick="editarProducto(${p.id}, '${nombreEscaped}', '${catEscaped}', ${p.peso_unidad}, ${p.stock_minimo || 0})" class="btn" style="padding: 6px; background: rgba(16, 185, 129, 0.15); color: #10b981; margin-right: 4px;" title="Editar">
-                            <ion-icon name="create-outline"></ion-icon>
-                        </button>
-                        <button onclick="eliminarProducto(${p.id})" class="btn" style="padding: 6px; background: rgba(239, 68, 68, 0.15); color: #ef4444;" title="Eliminar">
-                            <ion-icon name="trash-outline"></ion-icon>
-                        </button>
+                        ${actionsHtml}
                     </td>
                 </tr>
                 `;
@@ -872,6 +913,15 @@
                 const peso = inventario ? (inventario.peso_total_gramos || 0) : null;
                 const piezas = inventario ? (inventario.cantidad_calculada || 0) : null;
 
+                let deleteBtnHtml = '';
+                if (window.userRole === 1 || window.userRole === 2) {
+                    deleteBtnHtml = `
+                        <button class="btn" style="padding: 4px; background: transparent; color: #f87171;" onclick="eliminarEstanteIoT(${e.id})">
+                            <ion-icon name="trash-outline" style="font-size: 18px;"></ion-icon>
+                        </button>
+                    `;
+                }
+
                 let cardHeader = `
                     <div style="display: flex; justify-content: space-between; width: 100%; align-items: flex-start;">
                         <div style="display: flex; align-items: center; gap: 10px;">
@@ -886,9 +936,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="btn" style="padding: 4px; background: transparent; color: #f87171;" onclick="eliminarEstanteIoT(${e.id})">
-                            <ion-icon name="trash-outline" style="font-size: 18px;"></ion-icon>
-                        </button>
+                        ${deleteBtnHtml}
                     </div>
                 `;
 
@@ -907,22 +955,34 @@
 
                 let actionFooter = '';
                 if (producto) {
+                    let unlinkBtn = '';
+                    if (window.userRole !== 4) {
+                        unlinkBtn = `<button class="btn btn-secondary" style="padding: 6px 12px; font-size: 11px; color: var(--danger);" onclick="desvincularEstanteIoT(${e.id}, ${producto.id})">Desvincular</button>`;
+                    }
                     actionFooter = `
                         <div style="width: 100%; margin-top: 12px; border-top: 1px solid var(--border-color); padding-top: 12px; display: flex; justify-content: space-between; align-items: center;">
                             <div style="display: flex; align-items: center; gap: 6px;">
                                 <ion-icon name="checkmark-circle" style="color: #10b981; font-size: 18px;"></ion-icon>
                                 <span style="font-size: 12px; font-weight: 600; color: var(--text-color);">${producto.nombre}</span>
                             </div>
-                            <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 11px; color: var(--danger);" onclick="desvincularEstanteIoT(${e.id}, ${producto.id})">Desvincular</button>
+                            ${unlinkBtn}
                         </div>
                     `;
                 } else {
-                    actionFooter = `
-                        <div style="width: 100%; margin-top: 12px; background: rgba(217, 119, 6, 0.05); border: 1px dashed rgba(217, 119, 6, 0.2); padding: 10px; border-radius: 8px; text-align: center;">
-                            <p style="font-size: 11px; color: var(--warning); font-weight: 500; margin-bottom: 8px;">Requiere Vincular Producto</p>
-                            <button class="btn btn-primary" style="padding: 6px 12px; font-size: 11px; width: 100%;" onclick="abrirModalVincularEstante(${e.id})">Vincular Producto</button>
-                        </div>
-                    `;
+                    if (window.userRole !== 4) {
+                        actionFooter = `
+                            <div style="width: 100%; margin-top: 12px; background: rgba(217, 119, 6, 0.05); border: 1px dashed rgba(217, 119, 6, 0.2); padding: 10px; border-radius: 8px; text-align: center;">
+                                <p style="font-size: 11px; color: var(--warning); font-weight: 500; margin-bottom: 8px;">Requiere Vincular Producto</p>
+                                <button class="btn btn-primary" style="padding: 6px 12px; font-size: 11px; width: 100%;" onclick="abrirModalVincularEstante(${e.id})">Vincular Producto</button>
+                            </div>
+                        `;
+                    } else {
+                        actionFooter = `
+                            <div style="width: 100%; margin-top: 12px; background: var(--surface-alt); padding: 10px; border-radius: 8px; text-align: center;">
+                                <p style="font-size: 11px; color: var(--text-muted); font-weight: 500; margin-bottom: 0;">Sin producto vinculado</p>
+                            </div>
+                        `;
+                    }
                 }
 
                 return `
@@ -1002,6 +1062,18 @@
                 const rfid = p.rfid_tag ? p.rfid_tag : 'Sin vincular';
                 const rfidColor = p.rfid_tag ? 'var(--primary-color)' : 'var(--text-muted)';
                 const rfidIcon = p.rfid_tag ? 'card' : 'card-outline';
+                
+                let assignRfidBtn = '';
+                if (window.userRole === 1 || window.userRole === 2) {
+                    assignRfidBtn = `
+                    <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 11px; display: flex; align-items: center; gap: 4px; color: ${rfidColor};" onclick="abrirModalVincularRfid('${p.id}', '${p.nombre_completo}')">
+                        <ion-icon name="${rfidIcon}"></ion-icon>
+                        <span style="font-size: 11px; font-weight: 600;">${p.rfid_tag ? 'Actualizar' : 'Vincular'}</span>
+                    </button>
+                    `;
+                } else if (p.rfid_tag) {
+                    assignRfidBtn = `<span style="font-size: 11px; font-weight: 600; color: var(--primary-color);"><ion-icon name="${rfidIcon}"></ion-icon> Vinculado</span>`;
+                }
 
                 return `
                 <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--separator);">
@@ -1009,10 +1081,7 @@
                         <h4 style="font-size: 14px; font-weight: 700; color: var(--text-color);">${p.nombre_completo}</h4>
                         <span style="font-size: 11px; color: var(--text-muted);">${roleName}</span>
                     </div>
-                    <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 11px; display: flex; align-items: center; gap: 4px; color: ${rfidColor};" onclick="abrirModalVincularRfid('${p.id}', '${p.nombre_completo}')">
-                        <ion-icon name="${rfidIcon}"></ion-icon>
-                        <span style="font-size: 11px; font-weight: 600;">${p.rfid_tag ? 'Actualizar' : 'Vincular'}</span>
-                    </button>
+                    ${assignRfidBtn}
                 </div>
                 `;
             }).join('');
@@ -1235,13 +1304,7 @@
             }
 
             // Validar rol de usuario actual
-            let isAdminUser = false;
-            if (currentUser) {
-                const { data } = await supabase.from('perfiles').select('role_id').eq('id', currentUser.id).single();
-                if (data && (data.role_id === 1 || data.role_id === 2)) {
-                    isAdminUser = true;
-                }
-            }
+            let isAdminUser = (window.userRole === 1 || window.userRole === 2);
 
             listContainer.innerHTML = filtered.map(m => {
                 const isEntrada = m.tipo_accion === 'ENTRADA';
