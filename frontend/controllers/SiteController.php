@@ -30,10 +30,10 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['logout', 'signup'],
+                'only' => ['logout', 'signup', 'register'],
                 'rules' => [
                     [
-                        'actions' => ['signup'],
+                        'actions' => ['signup', 'register'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -175,6 +175,16 @@ class SiteController extends Controller
         return $this->render('signup', [
             'model' => $model,
         ]);
+    }
+
+    /**
+     * Displays register page.
+     *
+     * @return mixed
+     */
+    public function actionRegister()
+    {
+        return $this->render('register');
     }
 
     /**
