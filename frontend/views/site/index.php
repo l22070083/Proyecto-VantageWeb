@@ -27,123 +27,8 @@
 </head>
 <body>
 
-    <!-- Sección de Auth -->
-    <div id="auth-container" class="auth-container" style="display: none; background: var(--bg-color); position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 9999; display: flex;">
-        
-        
-        <div style="flex: 1; background: linear-gradient(135deg, #0F172A 0%, #134E4A 100%); display: none; flex-direction: column; justify-content: center; align-items: center; padding: 40px; color: white; @media(min-width: 768px) { display: flex; }">
-            <img src="/images/vantage.png" alt="Vantage Logo" style="width: 200px; height: 200px; border-radius: 32px; margin-bottom: 32px; object-fit: contain; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);">
-            <h1 style="font-size: 48px; font-weight: 800; margin-bottom: 16px; letter-spacing: -1px;">VANTAGE</h1>
-            <p style="font-size: 20px; color: #CCFBF1; max-width: 400px; text-align: center;">Sistema de gestión de inventarios e integración IoT para almacenes inteligentes.</p>
-        </div>
-
-        <!-- Formularios -->
-        <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; background: var(--bg-color); padding: 40px; overflow-y: auto;">
-            
-            <!-- Vista Welcome -->
-            <div id="auth-view-welcome" style="display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 400px;">
-                <img src="/images/vantage.png" alt="Vantage Logo" style="width: 100px; height: 100px; border-radius: 16px; margin-bottom: 24px; object-fit: contain; display: block; @media(min-width: 768px) { display: none; }">
-                <h2 style="font-size: 32px; font-weight: 700; margin-bottom: 8px; text-align: center; color: var(--text-color);">¡Bienvenido!</h2>
-                <p style="color: var(--text-muted); text-align: center; margin-bottom: 48px; font-size: 16px;">Selecciona una opción para continuar</p>
-                
-                <button type="button" class="btn btn-primary" style="width: 100%; padding: 16px; margin-bottom: 16px; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="navigateTo('login')">
-                    <ion-icon name="log-in-outline" style="font-size: 20px;"></ion-icon> Iniciar Sesión
-                </button>
-                <button type="button" class="btn btn-success" style="width: 100%; padding: 16px; font-size: 16px; display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="navigateTo('register')">
-                    <ion-icon name="person-add-outline" style="font-size: 20px;"></ion-icon> Registrarse
-                </button>
-            </div>
-
-            <!-- Login -->
-            <div id="auth-view-login" class="hidden" style="display: flex; flex-direction: column; width: 100%; max-width: 400px;">
-                <button type="button" class="btn" style="background: transparent; color: #2563EB; display: flex; align-items: center; gap: 8px; padding: 0; margin-bottom: 32px; align-self: flex-start;" onclick="goBack('welcome')">
-                    <ion-icon name="arrow-back-outline"></ion-icon> Regresar
-                </button>
-                
-                <h2 style="font-size: 28px; font-weight: 700; margin-bottom: 8px; color: var(--text-color);">Iniciar Sesión</h2>
-                <p style="color: var(--text-muted); margin-bottom: 32px;">Ingresa tus credenciales para acceder</p>
-                
-                <div id="auth-error" class="hidden" style="background: var(--danger-bg); color: var(--danger); padding: 12px; border-radius: 8px; margin-bottom: 24px; font-size: 14px; text-align: center;"></div>
-                
-                <form id="login-form">
-                    <div class="form-group mb-4">
-                        <label style="color: var(--text-color); font-weight: 500; margin-bottom: 8px; display: block;">Nombre de Usuario</label>
-                        <input type="text" id="login-username" required class="form-control" placeholder="Ej. admin" style="padding: 14px; font-size: 15px;">
-                    </div>
-                    <div class="form-group mb-4">
-                        <label style="color: var(--text-color); font-weight: 500; margin-bottom: 8px; display: block;">Contraseña</label>
-                        <input type="password" id="login-password" required class="form-control" placeholder="••••••••" style="padding: 14px; font-size: 15px;">
-                    </div>
-                    <button type="submit" id="btn-login-submit" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 16px; margin-top: 8px; margin-bottom: 16px;">Entrar</button>
-                </form>
-                
-                <div style="text-align: center; margin-top: 16px;">
-                    <p style="color: var(--text-muted); font-size: 14px;">¿No tienes cuenta? <button type="button" style="background: none; border: none; color: #2563EB; font-weight: 600; cursor: pointer; font-size: 14px; padding: 0;" onclick="navigateTo('register')">Crear Cuenta</button></p>
-                </div>
-            </div>
-
-            <!-- Vista 3: Registro -->
-            <div id="auth-view-register" class="hidden" style="display: flex; flex-direction: column; width: 100%; max-width: 500px; padding-bottom: 40px;">
-                <button type="button" class="btn" style="background: transparent; color: #2563EB; display: flex; align-items: center; gap: 8px; padding: 0; margin-bottom: 24px; align-self: flex-start;" onclick="goBack('welcome')">
-                    <ion-icon name="arrow-back-outline"></ion-icon> Regresar
-                </button>
-                
-                <h2 style="font-size: 28px; font-weight: 700; margin-bottom: 8px; color: var(--text-color);">Crear una Cuenta</h2>
-                <p style="color: var(--text-muted); margin-bottom: 32px;">Completa el formulario para registrarte en Vantage</p>
-                
-                <div id="register-error" class="hidden" style="background: var(--danger-bg); color: var(--danger); padding: 12px; border-radius: 8px; margin-bottom: 24px; font-size: 14px; text-align: center;"></div>
-                
-                <form id="register-form">
-                    <div class="form-group mb-4">
-                        <label style="color: var(--text-color); font-weight: 500; margin-bottom: 8px; display: block;">Nombre de Usuario *</label>
-                        <input type="text" id="reg-username" required class="form-control" placeholder="Ej. juan.perez" style="padding: 12px;">
-                    </div>
-                    
-                    <div style="display: flex; gap: 16px; margin-bottom: 16px;">
-                        <div class="form-group" style="flex: 1; margin-bottom: 0;">
-                            <label style="color: var(--text-color); font-weight: 500; margin-bottom: 8px; display: block;">Primer Nombre *</label>
-                            <input type="text" id="reg-fname" required class="form-control" placeholder="Ej. Juan" style="padding: 12px;">
-                        </div>
-                        <div class="form-group" style="flex: 1; margin-bottom: 0;">
-                            <label style="color: var(--text-color); font-weight: 500; margin-bottom: 8px; display: block;">Segundo Nombre</label>
-                            <input type="text" id="reg-mname" class="form-control" placeholder="Opcional" style="padding: 12px;">
-                        </div>
-                    </div>
-                    
-                    <div style="display: flex; gap: 16px; margin-bottom: 16px;">
-                        <div class="form-group" style="flex: 1; margin-bottom: 0;">
-                            <label style="color: var(--text-color); font-weight: 500; margin-bottom: 8px; display: block;">Primer Apellido *</label>
-                            <input type="text" id="reg-lname1" required class="form-control" placeholder="Ej. Pérez" style="padding: 12px;">
-                        </div>
-                        <div class="form-group" style="flex: 1; margin-bottom: 0;">
-                            <label style="color: var(--text-color); font-weight: 500; margin-bottom: 8px; display: block;">Segundo Apellido *</label>
-                            <input type="text" id="reg-lname2" required class="form-control" placeholder="Ej. García" style="padding: 12px;">
-                        </div>
-                    </div>
-
-                    <div class="form-group mb-4">
-                        <label style="color: var(--text-color); font-weight: 500; margin-bottom: 8px; display: block;">Contraseña *</label>
-                        <input type="password" id="reg-password" required class="form-control" placeholder="Mínimo 6 caracteres" style="padding: 12px;">
-                    </div>
-                    
-                    <div class="form-group mb-4">
-                        <label style="color: var(--text-color); font-weight: 500; margin-bottom: 8px; display: block;">Puesto *</label>
-                        <select id="reg-role" required class="form-control" style="padding: 12px;">
-                            <option value="1">Administrador TI</option>
-                            <option value="2">Desarrollador</option>
-                            <option value="3">Tester</option>
-                            <option value="4">Empleado</option>
-                        </select>
-                    </div>
-                    
-                    <button type="submit" id="btn-register-submit" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 16px; margin-top: 16px;">Completar Registro</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
     <!-- Vista Principal-->
-    <div id="app" style="display: none;">
+    <div id="app">
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="brand">
@@ -194,63 +79,7 @@
 
             <div class="page-content" style="max-width: 1000px;">
                 <!-- Dashboard View -->
-                <div id="dashboard-view" class="view-section">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px;">
-                        <div>
-                            <p style="font-size: 15px; color: var(--text-muted); margin-bottom: 2px;">Buenos días,</p>
-                            <h2 style="font-size: 28px; font-weight: 700; margin-bottom: 12px; color: var(--text-color);">Almacén Central</h2>
-                            <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.05); padding: 5px 12px; border-radius: 6px;">
-                                <ion-icon name="calendar-outline" style="color: var(--text-muted);"></ion-icon>
-                                <span id="current-date" style="font-size: 13px; color: var(--text-muted);">Cargando fecha...</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style="height: 1px; background: var(--border-color); margin-bottom: 32px;"></div>
-
-                    <h3 style="font-size: 18px; margin-bottom: 16px;">Resumen del día</h3>
-                    <div style="display: flex; gap: 12px; margin-bottom: 24px;">
-                        <div class="stat-chip" style="background-color: var(--primary-light);">
-                            <ion-icon name="cube" style="font-size: 20px; color: var(--primary-color); margin-bottom: 4px;"></ion-icon>
-                            <p id="stat-productos" class="value" style="color: var(--primary-color);">0</p>
-                            <p class="label" style="color: var(--primary-color);">Productos</p>
-                        </div>
-                        <div class="stat-chip" style="background-color: var(--warning-bg);">
-                            <ion-icon name="warning" style="font-size: 20px; color: var(--warning); margin-bottom: 4px;"></ion-icon>
-                            <p id="stat-alertas" class="value" style="color: var(--warning);">0</p>
-                            <p class="label" style="color: var(--warning);">Bajo stock</p>
-                        </div>
-                        <div class="stat-chip" style="background-color: var(--success-bg);">
-                            <ion-icon name="arrow-forward-circle" style="font-size: 20px; color: var(--success); margin-bottom: 4px;"></ion-icon>
-                            <p id="stat-movimientos" class="value" style="color: var(--success);">0</p>
-                            <p class="label" style="color: var(--success);">Movimientos hoy</p>
-                        </div>
-                    </div>
-                    
-                    <h3 style="font-size: 18px; margin-bottom: 16px;">Acciones rápidas</h3>
-                    <div style="display: flex; gap: 12px; margin-bottom: 32px;">
-                        <div class="action-card" style="background-color: var(--primary-light);" onclick="window.navigateTo('productos'); document.getElementById('btn-nuevo-producto').click()">
-                            <div class="action-icon-box" style="background-color: rgba(13, 148, 136, 0.2); color: var(--primary-color);"><ion-icon name="add"></ion-icon></div>
-                            <span class="action-label" style="color: var(--text-color);">Nuevo producto</span>
-                        </div>
-                        <div class="action-card" style="background-color: var(--surface-alt);" onclick="window.navigateTo('productos')">
-                            <div class="action-icon-box" style="background-color: rgba(148, 163, 184, 0.2); color: var(--text-secondary);"><ion-icon name="list"></ion-icon></div>
-                            <span class="action-label" style="color: var(--text-color);">Ver todos los productos</span>
-                        </div>
-                    </div>
-
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                        <h3 style="font-size: 18px;">Movimientos recientes</h3>
-                        <a href="#" style="color: var(--primary-color); text-decoration: none; font-size: 14px; font-weight: 500;" onclick="window.navigateTo('historial')">Ver todo</a>
-                    </div>
-                    <div class="card no-padding">
-                        <table style="width: 100%;">
-                            <tbody id="dashboard-recent-activity">
-                                <tr><td style="padding: 24px; text-align: center; color: var(--text-muted);">Cargando actividades...</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                <?= $this->render('_dashboard') ?>
 
                 <!-- Productos View -->
                 <div id="productos-view" class="view-section hidden">
@@ -492,181 +321,13 @@
         </main>
     </div>
 
-    <!-- Modal De Estante Nuevo -->
-    <div id="modal-nuevo-estante" class="modal-backdrop hidden">
-        <div class="modal-content">
-            <h2 style="font-size: 20px; font-weight: 600; margin-bottom: 16px;">Registrar Estante Inteligente</h2>
-            <form id="form-estante">
-                <div class="form-group mb-4">
-                    <label>Nombre del Estante</label>
-                    <input type="text" id="estante-nombre" required class="form-control" placeholder="Ej: Estante A1">
-                </div>
-                <div class="form-group mb-4">
-                    <label>Dirección MAC (ESP32)</label>
-                    <input type="text" id="estante-mac" required class="form-control" placeholder="Ej: AA:BB:CC:DD:EE:FF">
-                </div>
-                <div class="form-group mb-4">
-                    <label>Ubicación Física</label>
-                    <input type="text" id="estante-ubicacion" required class="form-control" placeholder="Ej: Pasillo 1, Fila A">
-                </div>
-                <div style="display: flex; gap: 12px; margin-top: 24px;">
-                    <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="closeModal('modal-nuevo-estante')">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" style="flex: 1;">Registrar</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <!-- Modales -->
+    <?= $this->render('_modals') ?>
 
-    <!-- Vinculación de Producto a estante -->
-    <div id="modal-vincular" class="modal-backdrop hidden">
-        <div class="modal-content">
-            <h2 style="font-size: 20px; font-weight: 600; margin-bottom: 16px;">Vincular Producto</h2>
-            <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 16px;">Selecciona el producto que se colocará en este estante.</p>
-            <input type="hidden" id="vincular-estante-id">
-            <div class="form-group mb-4">
-                <label>Producto a vincular</label>
-                <select id="vincular-producto-id" required class="form-control">
-                    <option value="">Seleccione un producto...</option>
-                </select>
-            </div>
-            <div style="display: flex; gap: 12px; margin-top: 24px;">
-                <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="closeModal('modal-vincular')">Cancelar</button>
-                <button type="button" id="btn-confirmar-vinculo" class="btn btn-primary" style="flex: 1;">Confirmar Vínculo</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal de Producto -->
-    <div id="modal-producto" class="modal-backdrop hidden">
-        <div class="modal-content">
-            <h3 id="modal-producto-title" style="font-size: 20px; font-weight: 600; margin-bottom: 16px;">Nuevo Producto</h3>
-            <form id="form-producto">
-                <input type="hidden" id="prod-id">
-                <div class="form-group mb-3">
-                    <label>Nombre del Producto *</label>
-                    <input type="text" id="prod-nombre" class="form-control" required placeholder="Ej: Tornillo de Acero">
-                </div>
-                <div class="form-group mb-3">
-                    <label>Categoría</label>
-                    <input type="text" id="prod-categoria" class="form-control" placeholder="Ej: Herramientas">
-                </div>
-                <div class="form-group mb-3">
-                    <label>Peso Unitario (Gramos) *</label>
-                    <input type="number" id="prod-peso" class="form-control" step="1" required placeholder="Ej: 15">
-                </div>
-                <div class="form-group mb-4">
-                    <label>Stock Mínimo Alerta *</label>
-                    <input type="number" id="prod-stock-minimo" class="form-control" required placeholder="Ej: 5">
-                </div>
-                <div id="prod-error" class="hidden" style="background: var(--danger-bg); color: var(--danger); padding: 12px; border-radius: 8px; margin-bottom: 16px; font-size: 13px; text-align: center;"></div>
-                <div style="display: flex; gap: 12px;">
-                    <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="closeModal('modal-producto')">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" style="flex: 1;">Guardar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Edición de perfil -->
-    <div id="modal-editar-perfil" class="modal-backdrop hidden">
-        <div class="modal-content">
-            <h2 style="font-size: 20px; font-weight: 600; margin-bottom: 16px;">Editar Perfil</h2>
-            <form id="form-editar-perfil">
-                <div class="form-group mb-4">
-                    <label>Nombre Completo</label>
-                    <input type="text" id="perfil-edit-nombre" required class="form-control" placeholder="Ej: Tommy Alcocer">
-                </div>
-                <div style="display: flex; gap: 12px; margin-top: 24px;">
-                    <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="closeModal('modal-editar-perfil')">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" style="flex: 1;">Guardar Cambios</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Agregar movimiento  -->
-    <div id="modal-nuevo-movimiento" class="modal-backdrop hidden">
-        <div class="modal-content" style="max-width: 420px;">
-            <h2 style="font-size: 20px; font-weight: 600; margin-bottom: 16px;">Registrar Movimiento Manual</h2>
-            
-            <div id="movimiento-error" class="hidden" style="background: var(--danger-bg); color: var(--danger); padding: 12px; border-radius: 8px; margin-bottom: 16px; font-size: 13px; text-align: center;"></div>
-            
-            <form id="form-movimiento">
-                
-                <div class="form-group mb-4">
-                    <label>Tipo de Acción</label>
-                    <div style="display: flex; gap: 12px;">
-                        <button type="button" id="btn-mov-entrada" class="btn btn-success" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 12px;" onclick="setMovimientoTipo('ENTRADA')">
-                            <ion-icon name="arrow-up-right-outline" style="font-size: 16px;"></ion-icon> Entrada
-                        </button>
-                        <button type="button" id="btn-mov-salida" class="btn btn-secondary" style="flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 12px;" onclick="setMovimientoTipo('SALIDA')">
-                            <ion-icon name="arrow-down-left-outline" style="font-size: 16px;"></ion-icon> Salida
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Selección de Producto -->
-                <div class="form-group mb-3">
-                    <label>Producto</label>
-                    <select id="mov-producto-id" required class="form-control" onchange="actualizarMovimientoResumen()">
-                        <option value="">Seleccione un producto...</option>
-                    </select>
-                </div>
-
-                <!-- Seleccionar Estante -->
-                <div class="form-group mb-3">
-                    <label>Estante / Celda Asociada (Opcional)</label>
-                    <select id="mov-estante-id" class="form-control">
-                        <option value="">Ninguno (Ajuste general de stock)</option>
-                    </select>
-                </div>
-
-                <!-- Disponibilidad de Stock -->
-                <div id="mov-stock-alerta" class="hidden" style="background: var(--primary-light); color: var(--primary-color); padding: 10px; border-radius: 6px; margin-bottom: 16px; font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 6px;">
-                    <ion-icon name="information-circle-outline" style="font-size: 18px;"></ion-icon>
-                    <span id="mov-stock-alerta-texto">Stock disponible: ...</span>
-                </div>
-
-                <!-- Cantidad -->
-                <div class="form-group mb-3">
-                    <label>Cantidad (Unidades)</label>
-                    <input type="number" id="mov-cantidad" required class="form-control" min="1" placeholder="Ej: 5" oninput="actualizarMovimientoResumen()">
-                </div>
-
-                <!-- Peso -->
-                <div id="mov-resumen-peso" class="hidden" style="background: var(--surface-alt); border: 1px solid var(--border-color); padding: 12px; border-radius: 8px; margin-bottom: 16px; font-size: 13px; color: var(--text-color);">
-                    <strong>Peso total estimado:</strong> <span id="mov-resumen-peso-valor">0.00 kg</span>
-                </div>
-
-                <div style="display: flex; gap: 12px; margin-top: 24px;">
-                    <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="closeModal('modal-nuevo-movimiento')">Cancelar</button>
-                    <button type="submit" id="btn-movimiento-submit" class="btn btn-primary" style="flex: 1;">Registrar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Vincular Tarjeta RFID -->
-    <div id="modal-vincular-rfid" class="modal-backdrop hidden">
-        <div class="modal-content" style="max-width: 380px; text-align: center; padding: 32px 24px;">
-            <div style="background: var(--primary-light); width: 70px; height: 70px; border-radius: 35px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
-                <ion-icon name="radio-outline" style="font-size: 36px; color: var(--primary-color); animation: pulse 1.5s infinite;"></ion-icon>
-            </div>
-            <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 8px;" id="rfid-modal-title">Escaneando Tarjeta RFID</h2>
-            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 24px;" id="rfid-modal-desc">Por favor, aproxima tu tarjeta física a cualquier estante inteligente activo.</p>
-            
-            <!-- Indicador de Vinculación -->
-            <div id="rfid-status-box" style="margin-bottom: 24px; padding: 12px; background: var(--surface-alt); border-radius: 8px; border: 1px solid var(--border-color);">
-                <div style="font-size: 32px; font-weight: 800; color: var(--primary-color);" id="rfid-countdown-number">10</div>
-                <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Esperando escaneo en hardware...</p>
-            </div>
-            
-            <div style="display: flex; gap: 12px;">
     <script>
         
         window.spaCurrentUser = null;
         let currentHistoryIndex = 0;
-        let authContainer = null;
         let appContainer = null;
 
         window.closeModal = function(id) {
@@ -675,40 +336,18 @@
         };
 
         window.renderView = function(viewName) {
-            if (!authContainer) {
-                authContainer = document.getElementById('auth-container');
+            if (!appContainer) {
                 appContainer = document.getElementById('app');
             }
 
-            const authViews = ['welcome', 'login', 'register'];
             const appViews = ['dashboard', 'productos', 'iot', 'historial', 'perfil'];
 
-            if (authViews.includes(viewName)) {
-                if (window.spaCurrentUser) {
-                    window.navigateTo('dashboard', true);
-                    return;
-                }
-                
-                authContainer.style.display = 'flex';
-                appContainer.style.display = 'none';
-                
-                authViews.forEach(v => {
-                    const el = document.getElementById(`auth-view-${v}`);
-                    if (el) {
-                        if (v === viewName) {
-                            el.classList.remove('hidden');
-                        } else {
-                            el.classList.add('hidden');
-                        }
-                    }
-                });
-            } else if (appViews.includes(viewName)) {
+            if (appViews.includes(viewName)) {
                 if (!window.spaCurrentUser) {
-                    window.navigateTo('welcome', true);
+                    window.location.href = '<?= \yii\helpers\Url::to(['site/welcome']) ?>';
                     return;
                 }
                 
-                authContainer.style.display = 'none';
                 appContainer.style.display = 'flex';
                 
                 
@@ -764,14 +403,9 @@
                 currentHistoryIndex = event.state.index;
                 window.renderView(event.state.view);
             } else {
-                const hash = location.hash.replace('#', '') || (window.spaCurrentUser ? 'dashboard' : 'welcome');
+                const hash = location.hash.replace('#', '') || 'dashboard';
                 window.renderView(hash);
             }
-        });
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            const hash = location.hash.replace('#', '') || 'welcome';
-            window.navigateTo(hash, true);
         });
     </script>
 
@@ -782,7 +416,7 @@
         import { getProductos, createProducto, updateProducto, deleteProducto, getProductoStats, getProductLogs } from '<?= \yii\helpers\Url::base() ?>/js/services/productosService.js';
         import { getMovimientos, getMovimientosStatistics, getStockActual, createMovimiento, deleteMovimientoService } from '<?= \yii\helpers\Url::base() ?>/js/services/movimientosService.js';
         import { getEstantes, registerEstante, linkProductToShelf, unlinkProductFromShelf, deleteEstante } from '<?= \yii\helpers\Url::base() ?>/js/services/estantesService.js';
-        import { login, logout, getSession, register } from '<?= \yii\helpers\Url::base() ?>/js/services/authService.js';
+        import { logout, getSession } from '<?= \yii\helpers\Url::base() ?>/js/services/authService.js';
 
         
         let currentUser = null;
@@ -791,12 +425,9 @@
         let rfidCountdown = 10;
         let rfidTimer = null;
         let selectedProfileRfid = null;
+        window.userRole = null;
         
-        const loginForm = document.getElementById('login-form');
-        const registerForm = document.getElementById('register-form');
         const logoutBtn = document.getElementById('logout-btn');
-        const authError = document.getElementById('auth-error');
-        const registerError = document.getElementById('register-error');
         
         window.supabaseClient = supabase;
 
@@ -829,9 +460,15 @@
                 if (session) {
                     currentUser = session.user;
                     window.spaCurrentUser = session.user;
+                    
+                    // Cargar perfil antes de renderizar para tener el rol y nombre listos
+                    const { data: profile } = await supabase.from('perfiles').select('role_id, nombre_completo').eq('id', currentUser.id).single();
+                    window.userRole = profile?.role_id || 4;
+                    applyRoleRestrictions();
+                    
                     if (currentUser && currentUser.email) {
                         document.getElementById('user-email').textContent = currentUser.email;
-                        document.getElementById('user-avatar').textContent = currentUser.email.charAt(0).toUpperCase();
+                        document.getElementById('user-avatar').textContent = (profile?.nombre_completo || currentUser.email).charAt(0).toUpperCase();
                     }
                     setupRealtimeSubscriptions();
                     
@@ -840,8 +477,8 @@
                 } else {
                     currentUser = null;
                     window.spaCurrentUser = null;
-                    const hash = location.hash.replace('#', '') || 'welcome';
-                    window.navigateTo(hash, true);
+                    window.location.href = '<?= \yii\helpers\Url::to(['site/welcome']) ?>';
+                return;
                 }
                 
                 // Escuchar cambios de autenticación
@@ -850,25 +487,29 @@
                         currentUser = session.user;
                         window.spaCurrentUser = session.user;
                         
-                        // Datos de usuario
-                        if(currentUser && currentUser.email) {
-                            document.getElementById('user-email').textContent = currentUser.email;
-                            document.getElementById('user-avatar').textContent = currentUser.email.charAt(0).toUpperCase();
-                        }
-                        
-                        setupRealtimeSubscriptions();
-                        
-                        const currentHash = location.hash.replace('#', '');
-                        const authViews = ['welcome', 'login', 'register'];
-                        if (authViews.includes(currentHash) || !currentHash) {
-                            window.navigateTo('dashboard', true);
-                        } else {
-                            window.renderView(currentHash);
-                        }
+                        supabase.from('perfiles').select('role_id, nombre_completo').eq('id', currentUser.id).single().then(({ data: profile }) => {
+                            window.userRole = profile?.role_id || 4;
+                            applyRoleRestrictions();
+                            
+                            // Datos de usuario
+                            if(currentUser && currentUser.email) {
+                                document.getElementById('user-email').textContent = currentUser.email;
+                                document.getElementById('user-avatar').textContent = (profile?.nombre_completo || currentUser.email).charAt(0).toUpperCase();
+                            }
+                            
+                            setupRealtimeSubscriptions();
+                            
+                            const currentHash = location.hash.replace('#', '');
+                            if (!currentHash) {
+                                window.navigateTo('dashboard', true);
+                            } else {
+                                window.renderView(currentHash);
+                            }
+                        });
                     } else if (event === 'SIGNED_OUT') {
                         currentUser = null;
                         window.spaCurrentUser = null;
-                        window.navigateTo('welcome', true);
+                    window.location.href = '<?= \yii\helpers\Url::to(['site/welcome']) ?>';
                     }
                 });
                 
@@ -877,66 +518,6 @@
                 console.error(e);
             }
         }
-        
-        // Acción al ingresar
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const username = document.getElementById('login-username').value;
-            const password = document.getElementById('login-password').value;
-            const btn = document.getElementById('btn-login-submit');
-            
-            authError.classList.add('hidden');
-            btn.innerHTML = 'Cargando...';
-            btn.disabled = true;
-            
-            try {
-                await login(username, password);
-            } catch (error) {
-                authError.textContent = error.message;
-                authError.classList.remove('hidden');
-            } finally {
-                btn.innerHTML = 'Entrar';
-                btn.disabled = false;
-            }
-        });
-        
-        // Acción al registrar
-        registerForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const username = document.getElementById('reg-username').value;
-            const fname = document.getElementById('reg-fname').value;
-            const mname = document.getElementById('reg-mname').value;
-            const lname1 = document.getElementById('reg-lname1').value;
-            const lname2 = document.getElementById('reg-lname2').value;
-            const password = document.getElementById('reg-password').value;
-            const roleId = document.getElementById('reg-role').value;
-            const btn = document.getElementById('btn-register-submit');
-            
-            registerError.classList.add('hidden');
-            
-            if (password.length < 6) {
-                registerError.textContent = "La contraseña debe tener mínimo 6 caracteres.";
-                registerError.classList.remove('hidden');
-                return;
-            }
-            
-            btn.innerHTML = 'Cargando...';
-            btn.disabled = true;
-            
-            try {
-                const fullName = `${fname} ${mname} ${lname1} ${lname2}`.replace(/\s+/g, ' ').trim();
-                await register(username, password, fullName, { role_id: parseInt(roleId) });
-                alert("Cuenta creada exitosamente. Ya puedes iniciar sesión.");
-                window.navigateTo('login');
-                document.getElementById('login-username').value = username;
-            } catch (error) {
-                registerError.textContent = error.message;
-                registerError.classList.remove('hidden');
-            } finally {
-                btn.innerHTML = 'Completar Registro';
-                btn.disabled = false;
-            }
-        });
         
         // Cerrar sesión
         logoutBtn.addEventListener('click', async () => {
@@ -955,6 +536,28 @@
                     window.navigateTo(hash);
                 });
             });
+        }
+        
+        function applyRoleRestrictions() {
+            const role = window.userRole;
+            // 1 - Administrador TI, 2 - Desarrollador, 3 - Tester, 4 - Empleado
+            
+            const btnNuevoProducto = document.getElementById('btn-nuevo-producto');
+            const btnNuevoEstante = document.getElementById('btn-nuevo-estante');
+            const btnRegistrarMovimiento = document.querySelector('button[onclick="abrirModalNuevoMovimiento()"]');
+            const accionesRapidas = document.querySelectorAll('.action-card');
+            
+            if (role === 4) {
+                if (btnNuevoProducto) btnNuevoProducto.style.display = 'none';
+                if (btnNuevoEstante) btnNuevoEstante.style.display = 'none';
+                if (btnRegistrarMovimiento) btnRegistrarMovimiento.style.display = 'none';
+                accionesRapidas.forEach(el => el.style.display = 'none');
+            } else {
+                if (btnNuevoProducto) btnNuevoProducto.style.display = 'flex';
+                if (btnNuevoEstante) btnNuevoEstante.style.display = 'flex';
+                if (btnRegistrarMovimiento) btnRegistrarMovimiento.style.display = 'flex';
+                accionesRapidas.forEach(el => el.style.display = 'flex');
+            }
         }
         
         async function loadDashboardStats() {
@@ -1146,6 +749,9 @@
                 
                 // Buscar si tiene inventario o celda vinculada
                 let celdaText = `<button class="btn btn-outline" style="padding: 6px 12px; font-size: 11px;" onclick="abrirModalVincularCelda('${p.id}')">Vincular Celda</button>`;
+                if (window.userRole === 4) {
+                    celdaText = `<span style="font-size: 12px; color: var(--text-muted);">No vinculado</span>`;
+                }
                 if (p.inventario_actual && p.inventario_actual.length > 0) {
                     const inv = p.inventario_actual[0];
                     celdaText = `<span style="font-size: 12px; color: var(--primary-color); font-weight: 600;"><ion-icon name="scale-outline"></ion-icon> Vinculado</span>`;
@@ -1153,6 +759,20 @@
                 
                 const nombreEscaped = p.nombre.replace(/'/g, "\\'");
                 const catEscaped = (p.categoria || '').replace(/'/g, "\\'");
+                
+                let actionsHtml = '';
+                if (window.userRole !== 4) {
+                    actionsHtml = `
+                        <button onclick="editarProducto(${p.id}, '${nombreEscaped}', '${catEscaped}', ${p.peso_unidad}, ${p.stock_minimo || 0})" class="btn" style="padding: 6px; background: rgba(16, 185, 129, 0.15); color: #10b981; margin-right: 4px;" title="Editar">
+                            <ion-icon name="create-outline"></ion-icon>
+                        </button>
+                        <button onclick="eliminarProducto(${p.id})" class="btn" style="padding: 6px; background: rgba(239, 68, 68, 0.15); color: #ef4444;" title="Eliminar">
+                            <ion-icon name="trash-outline"></ion-icon>
+                        </button>
+                    `;
+                } else {
+                    actionsHtml = `<span style="font-size: 12px; color: var(--text-muted);">Solo lectura</span>`;
+                }
                 
                 return `
                 <tr>
@@ -1162,12 +782,7 @@
                     <td><span class="badge ${stock <= 5 ? 'badge-danger' : 'badge-success'}" style="font-weight: 700; font-size: 13px;">${stock} u</span></td>
                     <td>${celdaText}</td>
                     <td style="text-align: right;">
-                        <button onclick="editarProducto(${p.id}, '${nombreEscaped}', '${catEscaped}', ${p.peso_unidad}, ${p.stock_minimo || 0})" class="btn" style="padding: 6px; background: rgba(16, 185, 129, 0.15); color: #10b981; margin-right: 4px;" title="Editar">
-                            <ion-icon name="create-outline"></ion-icon>
-                        </button>
-                        <button onclick="eliminarProducto(${p.id})" class="btn" style="padding: 6px; background: rgba(239, 68, 68, 0.15); color: #ef4444;" title="Eliminar">
-                            <ion-icon name="trash-outline"></ion-icon>
-                        </button>
+                        ${actionsHtml}
                     </td>
                 </tr>
                 `;
@@ -1298,6 +913,15 @@
                 const peso = inventario ? (inventario.peso_total_gramos || 0) : null;
                 const piezas = inventario ? (inventario.cantidad_calculada || 0) : null;
 
+                let deleteBtnHtml = '';
+                if (window.userRole === 1 || window.userRole === 2) {
+                    deleteBtnHtml = `
+                        <button class="btn" style="padding: 4px; background: transparent; color: #f87171;" onclick="eliminarEstanteIoT(${e.id})">
+                            <ion-icon name="trash-outline" style="font-size: 18px;"></ion-icon>
+                        </button>
+                    `;
+                }
+
                 let cardHeader = `
                     <div style="display: flex; justify-content: space-between; width: 100%; align-items: flex-start;">
                         <div style="display: flex; align-items: center; gap: 10px;">
@@ -1312,9 +936,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="btn" style="padding: 4px; background: transparent; color: #f87171;" onclick="eliminarEstanteIoT(${e.id})">
-                            <ion-icon name="trash-outline" style="font-size: 18px;"></ion-icon>
-                        </button>
+                        ${deleteBtnHtml}
                     </div>
                 `;
 
@@ -1333,22 +955,34 @@
 
                 let actionFooter = '';
                 if (producto) {
+                    let unlinkBtn = '';
+                    if (window.userRole !== 4) {
+                        unlinkBtn = `<button class="btn btn-secondary" style="padding: 6px 12px; font-size: 11px; color: var(--danger);" onclick="desvincularEstanteIoT(${e.id}, ${producto.id})">Desvincular</button>`;
+                    }
                     actionFooter = `
                         <div style="width: 100%; margin-top: 12px; border-top: 1px solid var(--border-color); padding-top: 12px; display: flex; justify-content: space-between; align-items: center;">
                             <div style="display: flex; align-items: center; gap: 6px;">
                                 <ion-icon name="checkmark-circle" style="color: #10b981; font-size: 18px;"></ion-icon>
                                 <span style="font-size: 12px; font-weight: 600; color: var(--text-color);">${producto.nombre}</span>
                             </div>
-                            <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 11px; color: var(--danger);" onclick="desvincularEstanteIoT(${e.id}, ${producto.id})">Desvincular</button>
+                            ${unlinkBtn}
                         </div>
                     `;
                 } else {
-                    actionFooter = `
-                        <div style="width: 100%; margin-top: 12px; background: rgba(217, 119, 6, 0.05); border: 1px dashed rgba(217, 119, 6, 0.2); padding: 10px; border-radius: 8px; text-align: center;">
-                            <p style="font-size: 11px; color: var(--warning); font-weight: 500; margin-bottom: 8px;">Requiere Vincular Producto</p>
-                            <button class="btn btn-primary" style="padding: 6px 12px; font-size: 11px; width: 100%;" onclick="abrirModalVincularEstante(${e.id})">Vincular Producto</button>
-                        </div>
-                    `;
+                    if (window.userRole !== 4) {
+                        actionFooter = `
+                            <div style="width: 100%; margin-top: 12px; background: rgba(217, 119, 6, 0.05); border: 1px dashed rgba(217, 119, 6, 0.2); padding: 10px; border-radius: 8px; text-align: center;">
+                                <p style="font-size: 11px; color: var(--warning); font-weight: 500; margin-bottom: 8px;">Requiere Vincular Producto</p>
+                                <button class="btn btn-primary" style="padding: 6px 12px; font-size: 11px; width: 100%;" onclick="abrirModalVincularEstante(${e.id})">Vincular Producto</button>
+                            </div>
+                        `;
+                    } else {
+                        actionFooter = `
+                            <div style="width: 100%; margin-top: 12px; background: var(--surface-alt); padding: 10px; border-radius: 8px; text-align: center;">
+                                <p style="font-size: 11px; color: var(--text-muted); font-weight: 500; margin-bottom: 0;">Sin producto vinculado</p>
+                            </div>
+                        `;
+                    }
                 }
 
                 return `
@@ -1428,6 +1062,18 @@
                 const rfid = p.rfid_tag ? p.rfid_tag : 'Sin vincular';
                 const rfidColor = p.rfid_tag ? 'var(--primary-color)' : 'var(--text-muted)';
                 const rfidIcon = p.rfid_tag ? 'card' : 'card-outline';
+                
+                let assignRfidBtn = '';
+                if (window.userRole === 1 || window.userRole === 2) {
+                    assignRfidBtn = `
+                    <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 11px; display: flex; align-items: center; gap: 4px; color: ${rfidColor};" onclick="abrirModalVincularRfid('${p.id}', '${p.nombre_completo}')">
+                        <ion-icon name="${rfidIcon}"></ion-icon>
+                        <span style="font-size: 11px; font-weight: 600;">${p.rfid_tag ? 'Actualizar' : 'Vincular'}</span>
+                    </button>
+                    `;
+                } else if (p.rfid_tag) {
+                    assignRfidBtn = `<span style="font-size: 11px; font-weight: 600; color: var(--primary-color);"><ion-icon name="${rfidIcon}"></ion-icon> Vinculado</span>`;
+                }
 
                 return `
                 <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--separator);">
@@ -1435,10 +1081,7 @@
                         <h4 style="font-size: 14px; font-weight: 700; color: var(--text-color);">${p.nombre_completo}</h4>
                         <span style="font-size: 11px; color: var(--text-muted);">${roleName}</span>
                     </div>
-                    <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 11px; display: flex; align-items: center; gap: 4px; color: ${rfidColor};" onclick="abrirModalVincularRfid('${p.id}', '${p.nombre_completo}')">
-                        <ion-icon name="${rfidIcon}"></ion-icon>
-                        <span style="font-size: 11px; font-weight: 600;">${p.rfid_tag ? 'Actualizar' : 'Vincular'}</span>
-                    </button>
+                    ${assignRfidBtn}
                 </div>
                 `;
             }).join('');
@@ -1661,13 +1304,7 @@
             }
 
             // Validar rol de usuario actual
-            let isAdminUser = false;
-            if (currentUser) {
-                const { data } = await supabase.from('perfiles').select('role_id').eq('id', currentUser.id).single();
-                if (data && (data.role_id === 1 || data.role_id === 2)) {
-                    isAdminUser = true;
-                }
-            }
+            let isAdminUser = (window.userRole === 1 || window.userRole === 2);
 
             listContainer.innerHTML = filtered.map(m => {
                 const isEntrada = m.tipo_accion === 'ENTRADA';
