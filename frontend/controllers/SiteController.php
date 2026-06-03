@@ -70,6 +70,17 @@ class SiteController extends Controller
     }
 
     /**
+     * Displays welcome page.
+     *
+     * @return mixed
+     */
+    public function actionWelcome()
+    {
+        $this->layout = false;
+        return $this->render('welcome');
+    }
+
+    /**
      * Displays homepage.
      *
      * @return mixed
